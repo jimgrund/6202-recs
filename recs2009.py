@@ -47,32 +47,6 @@ recs_df = pd.DataFrame(raw_recs_df[np.concatenate((np.append(features,target),bi
 
 
 
-#from sklearn.feature_extraction import FeatureHasher
-#from sklearn.ensemble import RandomForestClassifier
-#from sklearn.linear_model import LogisticRegression
-#import copy
-#from sklearn.metrics import log_loss
-#r = RandomForestClassifier(n_estimators=25,max_depth=10)
-#X_train_hash = copy.copy(X_train)
-#X_test_hash = copy.copy(X_test)
-#for i in range(X_train_hash.shape[1]):
-#    X_train_hash.iloc[:,i]=X_train_hash.iloc[:,i].astype('str')
-#for i in range(X_test_hash.shape[1]):
-#    X_test_hash.iloc[:,i]=X_test_hash.iloc[:,i].astype('str')
-#h = FeatureHasher(n_features=100,input_type="string")
-#X_train_hash = h.transform(X_train_hash.values)
-#X_test_hash = h.transform(X_test_hash.values)
-#
-#l = LogisticRegression()
-#l.fit(X_train_hash,y_train)
-#y_pred = l.predict_proba(X_test_hash)
-#print(log_loss(y_test,y_pred))#0.4
-#
-#r.fit(X_train_hash,y_train)
-#y_pred = r.predict_proba(X_test_hash)
-#print(log_loss(y_test,y_pred))
-
-
 recs_enc_df = pd.get_dummies(recs_df,columns=features)
 recs_enc_features_df = recs_enc_df.drop('KWH',axis=1,inplace=False)
 recs_enc_features = list(recs_enc_features_df.columns.values)
@@ -80,52 +54,6 @@ recs_enc_features = list(recs_enc_features_df.columns.values)
 X = recs_enc_features_df
 Y = recs_enc_df[target]
 X_train, X_test, y_train, y_test = train_test_split( X, Y, test_size=0.9, random_state=42)
-
-#enc = OneHotEncoder(categorical_features=bin_features,handle_unknown='error')
-#enc.fit(X_train)
-#recs_ohe_df = enc.transform(X_train)
-
-
-## ensure all datatypes are object type
-#try:
-#    del recs_features_df
-#except:
-#    pass
-#recs_features_df = pd.DataFrame()
-#for key in features:
-#    try:
-#        recs_features_df[key] = pd.DataFrame(recs_df[features].astype(dtype= {key:"object"}))
-#    except:
-#        recs_features_df = pd.DataFrame(recs_df[features].astype(dtype= {key:"object"}))
-#
-#try:
-#    del recs_bin_features_df    
-#except:
-#    pass
-#recs_bin_features_df = pd.DataFrame()
-#for key in bin_features:
-#    try:
-#        recs_bin_features_df[key] = pd.DataFrame(recs_df[bin_features].astype(dtype= {key:"int64"}))
-#    except:
-#        recs_bin_features_df = pd.DataFrame(recs_df[bin_features].astype(dtype= {key:"int64"}))
-#
-#del recs_df
-#recs_df = pd.concat([recs_features_df, recs_bin_features_df], ignore_index='True', axis=1)
-#recs_features = np.concatenate((features,bin_features))
-
-#from keras.utils import to_categorical    
-#recs_features_df = to_categorical(recs_features_df)
-#recs_features_df = x_df = pd.get_dummies(recs_features_df)
-
-# one-hot encode the factors in x_df
-#recs_df = to_categorical(recs_df)
-
-#
-#X = recs_df
-#Y = raw_recs_df[target]
-#names = np.array(recs_features)
-#
-#X_train, X_test, y_train, y_test = train_test_split( X, Y, test_size=0.8, random_state=42)
 
 
 print("Gini importance")
